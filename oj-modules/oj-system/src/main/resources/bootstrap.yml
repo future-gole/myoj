@@ -3,3 +3,12 @@ server:
 spring:
   application:
     name: oj-system
+  datasource:
+    url: jdbc:mysql://localhost:3306/myoj_dev?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
+    password: 161011zz
+    username: ojtest
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
+      connection-timeout: 30000
