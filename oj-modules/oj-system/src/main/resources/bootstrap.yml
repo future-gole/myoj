@@ -1,14 +1,16 @@
-server:
-  port: 9201
 spring:
   application:
     name: oj-system
-  datasource:
-    url: jdbc:mysql://localhost:3306/myoj_dev?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
-    password: 161011zz
-    username: ojtest
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      idle-timeout: 30000
-      connection-timeout: 30000
+  profiles:
+    # 环境配置
+    active: local
+  cloud:
+    nacos:
+      discovery:
+        namespace: f7b8dfd9-cf5c-4362-aeda-c2787cc342dc
+        server-addr: http://localhost:8848
+      config:
+        namespace: f7b8dfd9-cf5c-4362-aeda-c2787cc342dc
+        server-addr: http://localhost:8848
+        file-extension: yaml
+

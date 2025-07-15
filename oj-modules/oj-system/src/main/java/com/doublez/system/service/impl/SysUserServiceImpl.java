@@ -18,7 +18,6 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Override
     public R<Void> login(String username, String password) {
-        int a = 3/0;
         SysUser sysUser = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>()
                 .select(SysUser::getUserAccount,SysUser::getPassword));
         if(sysUser==null){
