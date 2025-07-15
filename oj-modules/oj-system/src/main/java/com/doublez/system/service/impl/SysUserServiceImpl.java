@@ -7,6 +7,7 @@ import com.doublez.system.controller.LoginResult;
 import com.doublez.system.domain.SysUser;
 import com.doublez.system.mapper.SysUserMapper;
 import com.doublez.system.service.ISysUserService;
+import com.doublez.system.utils.BCryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,20 +18,15 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Override
     public R<Void> login(String username, String password) {
-        SysUser sysUser = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>().select(SysUser::getUserAccount));
-        R<Void> loginResult = new R<>();
+        int a = 3/0;
+        SysUser sysUser = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+                .select(SysUser::getUserAccount,SysUser::getPassword));
         if(sysUser==null){
-            loginResult.setCode(ResultCode.FAILED_USER_NOT_EXISTS.getCode());
-            loginResult.setMsg(ResultCode.FAILED_USER_NOT_EXISTS.getMsg());
-            return loginResult;
+            return R.fail(ResultCode.FAILED_USER_NOT_EXISTS);
         }
-        if(!sysUser.getPassword().equals(password)){
-            loginResult.setCode(ResultCode.FAILED_LOGIN.getCode());
-            loginResult.setMsg(ResultCode.FAILED_LOGIN.getMsg());
-            return loginResult;
+        if(!BCryptUtils.matchesPassword(password,sysUser.getPassword())){
+            return R.fail(ResultCode.FAILED_LOGIN);
         }
-        loginResult.setMsg(ResultCode.SUCCESS.getMsg());
-        loginResult.setCode(ResultCode.SUCCESS.getCode());
-        return loginResult;
+        return R.ok();
     }
 }

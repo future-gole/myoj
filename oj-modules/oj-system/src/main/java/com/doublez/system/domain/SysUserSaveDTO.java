@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
-public class LoginDTO {
+@Setter
+public class SysUserSaveDTO {
     @Schema(description = "用户账号")
-    String username;
-    @Schema(description = "用户密码")
-    String password;
+    private String userAccount;
+    @Schema(description = "密码")
+    private String password;
 }
