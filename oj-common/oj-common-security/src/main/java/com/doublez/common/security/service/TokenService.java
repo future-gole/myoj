@@ -4,7 +4,7 @@ import com.doublez.common.core.constants.CacheConstants;
 import com.doublez.common.core.constants.JwtConstants;
 import com.doublez.common.core.domain.LoginUser;
 import com.doublez.common.redis.service.RedisService;
-import com.doublez.common.security.utils.JwtUtils;
+import com.doublez.common.core.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

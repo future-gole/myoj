@@ -10,7 +10,7 @@ import com.doublez.common.core.domain.R;
 import com.doublez.common.core.enums.ResultCode;
 import com.doublez.common.core.enums.UserIdentity;
 import com.doublez.common.redis.service.RedisService;
-import com.doublez.common.security.utils.JwtUtils;
+import com.doublez.common.core.utils.JwtUtils;
 import com.doublez.gateway.properties.IgnoreWhiteProperties;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;

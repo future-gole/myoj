@@ -1,4 +1,4 @@
-package com.doublez.common.security.utils;
+package com.doublez.common.core.utils;
 import com.doublez.common.core.constants.JwtConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

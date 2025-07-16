@@ -53,7 +53,7 @@
         </dependency>
         <dependency>
             <groupId>com.doublez</groupId>
-            <artifactId>oj-common-security</artifactId>
+            <artifactId>oj-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>
