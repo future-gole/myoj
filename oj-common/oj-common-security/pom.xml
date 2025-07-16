@@ -44,5 +44,9 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.22</version>
         </dependency>
+        <dependency>
+            <groupId>com.doublez</groupId>
+            <artifactId>oj-common-redis</artifactId>
+        </dependency>
     </dependencies>
 </project>

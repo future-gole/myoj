@@ -24,9 +24,7 @@ public class SysUserController {
     @ApiResponse(responseCode = "2000",description = "服务器繁忙")
     @ApiResponse(responseCode = "3001",description = "用户已经存在")
     @PostMapping("/login")
-    public R<Void> login(@RequestBody LoginDTO loginDTO) {
+    public R<String> login(@RequestBody LoginDTO loginDTO) {
         return sysUserService.login(loginDTO.getUsername(), loginDTO.getPassword());
     }
-
-
 }
