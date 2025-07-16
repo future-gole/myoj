@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.doublez.common.swagger</groupId>
+
     <artifactId>oj-common-swagger</artifactId>
 
     <properties>
