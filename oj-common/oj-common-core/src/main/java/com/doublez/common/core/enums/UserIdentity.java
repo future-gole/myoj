@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum UserIdentity {
 
     ADMIN(1,"管理员"),
-    NORMAL(2,"普通用户");
+    ORDINARY(2,"普通用户");
 
     private final Integer code;
     private final String des;

@@ -24,6 +24,12 @@ public class R<T> {
     public static <T> R<T> fail() {
         return assembleResult(null, ResultCode.FAILED);
     }
+    public static <T> R<T> fail(int code,String msg) {
+        R<T> result = new R<T>();
+        result.setCode(code);
+        result.setMsg(msg);
+        return result;
+    }
     /**
      * 指定状态码的返回
      * @param resultCode
