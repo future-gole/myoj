@@ -1,2 +1,4 @@
 com.doublez.common.security.GlobalExceptionHandler
 com.doublez.common.security.service.TokenService
+com.doublez.common.security.interceptor.TokenInterceptor
+com.doublez.common.security.config.WebMvcConfig

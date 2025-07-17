@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 public class LoginDTO {
     @Schema(description = "用户账号")
-    String username;
+    String userAccount;
     @Schema(description = "用户密码")
     String password;
 }

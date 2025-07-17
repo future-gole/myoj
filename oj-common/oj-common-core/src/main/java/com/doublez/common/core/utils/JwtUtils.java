@@ -31,25 +31,22 @@ public class JwtUtils {
      * @return 数据
      */
     public static Claims parseToken(String token, String secret) {
-        return
-                Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     public static String getUserKey(Claims claims) {
-        Objects values = (Objects) claims.get(JwtConstants.Login_User_Key);
-        return getString(values);
-    }
-
-    private static String getString(Objects values) {
-        if(Objects.isNull(values)){
-            return "";
-        }
-        return values.toString();
+        return toStr(claims.get(JwtConstants.Login_User_Key));
     }
 
     public static String getUserId(Claims claims) {
-        Objects values = (Objects) claims.get(JwtConstants.Login_User_ID);
-        return getString(values);
+        return toStr(claims.get(JwtConstants.Login_User_ID));
+    }
+
+    private static String toStr(Object value) {
+        if (value == null) {
+            return "";
+        }
+        return value.toString();
     }
 }
 

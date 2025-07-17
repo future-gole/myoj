@@ -29,6 +29,7 @@
         <oj-common-swagger.version>1.0-SNAPSHOT</oj-common-swagger.version>
         <oj-common-security.version>1.0-SNAPSHOT</oj-common-security.version>
         <oj-common-redis.version>1.0-SNAPSHOT</oj-common-redis.version>
+        <oj-common-mybatis.version>1.0-SNAPSHOT</oj-common-mybatis.version>
         <spring-openapi.version>2.2.0</spring-openapi.version>
         <fastjson2.version>2.0.43</fastjson2.version>
         <hutool-all.version>5.8.22</hutool-all.version>
@@ -90,6 +91,11 @@
                 <groupId>com.doublez</groupId>
                 <artifactId>oj-common-redis</artifactId>
                 <version>${oj-common-redis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.doublez</groupId>
+                <artifactId>oj-common-mybatis</artifactId>
+                <version>${oj-common-mybatis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

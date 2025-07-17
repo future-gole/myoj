@@ -2,6 +2,7 @@ package com.doublez.common.security;
 
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.enums.ResultCode;
+import com.doublez.common.security.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -32,6 +33,14 @@ public class GlobalExceptionHandler {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',发生异常", requestURI, e);
         return R.fail(ResultCode.ERROR);
+    }
+
+    @ExceptionHandler(ServiceException.class)
+    public R<?> handleServiceException(ServiceException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        ResultCode resultCode = e.getResultCode();
+        log.error("请求地址'{}',发生业务异常:{}", requestURI, e.getMessage(),e);
+        return R.fail(resultCode);
     }
 
     /**

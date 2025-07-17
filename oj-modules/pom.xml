@@ -43,9 +43,8 @@
             <artifactId>oj-common-swagger</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <groupId>com.doublez</groupId>
+            <artifactId>oj-common-mybatis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>

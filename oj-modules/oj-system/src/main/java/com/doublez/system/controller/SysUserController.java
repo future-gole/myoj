@@ -1,7 +1,9 @@
 package com.doublez.system.controller;
 
+import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
 import com.doublez.system.domain.LoginDTO;
+import com.doublez.system.domain.SysUserSaveDTO;
 import com.doublez.system.service.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,16 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "管理员接口")
 @RestController
 @RequestMapping("/sysUser")
-public class SysUserController {
+public class SysUserController extends BaseController {
     @Autowired
     private ISysUserService sysUserService;
 
-    @Operation(summary = "新增管理员",description = "根据提供的信息新增管理员")
-    @ApiResponse(responseCode = "1000",description = "操作成功")
-    @ApiResponse(responseCode = "2000",description = "服务器繁忙")
-    @ApiResponse(responseCode = "3001",description = "用户已经存在")
+    @Operation(summary = "管理员登录", description = "根据账号密码进行管理员登录")
+    @ApiResponse(responseCode = "1000", description = "操作成功")
+    @ApiResponse(responseCode = "2000", description = "服务繁忙请稍后重试")
+    @ApiResponse(responseCode = "3102", description = "用户不存在")
+    @ApiResponse(responseCode = "3103", description = "用户名或密码错误")
     @PostMapping("/login")
     public R<String> login(@RequestBody LoginDTO loginDTO) {
-        return sysUserService.login(loginDTO.getUsername(), loginDTO.getPassword());
+        return sysUserService.login(loginDTO.getUserAccount(), loginDTO.getPassword());
+    }
+
+    @PostMapping("/add")
+    @Operation(summary = "新增管理员", description = "根据提供的信息新增管理员")
+    @ApiResponse(responseCode = "1000", description = "操作成功")
+    @ApiResponse(responseCode = "2000", description = "服务繁忙请稍后重试")
+    @ApiResponse(responseCode = "3101", description = "用户已存在")
+    public R<Void> add(@RequestBody SysUserSaveDTO sysUserSaveDTO) {
+        return toR(sysUserService.add(sysUserSaveDTO));
     }
 }
