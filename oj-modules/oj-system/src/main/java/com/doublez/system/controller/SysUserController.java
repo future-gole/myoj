@@ -2,14 +2,14 @@ package com.doublez.system.controller;
 
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
-import com.doublez.system.domain.LoginDTO;
-import com.doublez.system.domain.SysUserSaveDTO;
+import com.doublez.system.domain.DTO.LoginDTO;
+import com.doublez.system.domain.DTO.SysUserSaveDTO;
 import com.doublez.system.service.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class SysUserController extends BaseController {
     @ApiResponse(responseCode = "3102", description = "用户不存在")
     @ApiResponse(responseCode = "3103", description = "用户名或密码错误")
     @PostMapping("/login")
-    public R<String> login(@RequestBody LoginDTO loginDTO) {
+    public R<String> login(@Validated @RequestBody LoginDTO loginDTO) {
         return sysUserService.login(loginDTO.getUserAccount(), loginDTO.getPassword());
     }
 
@@ -36,7 +36,7 @@ public class SysUserController extends BaseController {
     @ApiResponse(responseCode = "1000", description = "操作成功")
     @ApiResponse(responseCode = "2000", description = "服务繁忙请稍后重试")
     @ApiResponse(responseCode = "3101", description = "用户已存在")
-    public R<Void> add(@RequestBody SysUserSaveDTO sysUserSaveDTO) {
+    public R<Void> add(@Validated @RequestBody SysUserSaveDTO sysUserSaveDTO) {
         return toR(sysUserService.add(sysUserSaveDTO));
     }
 }

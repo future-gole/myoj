@@ -30,6 +30,14 @@ public class R<T> {
         result.setMsg(msg);
         return result;
     }
+
+    public static <T> R<T> fail(T data,ResultCode resultCode) {
+        R<T> result = new R<T>();
+        result.setCode(resultCode.getCode());
+        result.setMsg(resultCode.getMsg());
+        result.setData(data);
+        return result;
+    }
     /**
      * 指定状态码的返回
      * @param resultCode

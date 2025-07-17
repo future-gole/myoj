@@ -1,4 +1,4 @@
-package com.doublez.common.core.domain;
+package com.doublez.common.core.domain.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

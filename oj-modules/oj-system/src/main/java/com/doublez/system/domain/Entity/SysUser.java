@@ -1,9 +1,9 @@
-package com.doublez.system.domain;
+package com.doublez.system.domain.Entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.doublez.common.core.domain.BaseEntity;
+import com.doublez.common.core.domain.vo.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
