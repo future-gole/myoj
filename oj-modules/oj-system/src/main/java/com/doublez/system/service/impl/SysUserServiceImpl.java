@@ -1,7 +1,11 @@
 package com.doublez.system.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.doublez.common.core.constants.HttpConstants;
+import com.doublez.common.core.domain.LoginUser;
 import com.doublez.common.core.domain.R;
+import com.doublez.common.core.domain.vo.LoginUserVO;
 import com.doublez.common.core.enums.ResultCode;
 import com.doublez.common.core.enums.UserIdentity;
 import com.doublez.common.security.exception.ServiceException;
@@ -31,7 +35,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public R<String> login(String userAccount, String password) {
         SysUser sysUser = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>()
-                .select(SysUser::getPassword,SysUser::getUserId)
+                .select(SysUser::getPassword,SysUser::getUserId,SysUser::getNickName)
                 .eq(SysUser::getUserAccount,userAccount));
         //1. 用户不存在
         if(sysUser==null){
@@ -44,7 +48,7 @@ public class SysUserServiceImpl implements ISysUserService {
         //3. 正确
         //3.1 创建token
 
-        return R.ok(tokenService.createToken(sysUser.getUserId(),secret, UserIdentity.ADMIN.getCode()));
+        return R.ok(tokenService.createToken(sysUser.getUserId(),secret, UserIdentity.ADMIN.getCode(),sysUser.getNickName()));
     }
 
     @Override
@@ -58,5 +62,19 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUser.setUserAccount(sysUserSaveDTO.getUserAccount());
         sysUser.setPassword(BCryptUtils.encryptPassword(sysUserSaveDTO.getPassword()));
         return sysUserMapper.insert(sysUser);
+    }
+
+    @Override
+    public R<LoginUserVO> info(String token) {
+        if (StrUtil.isNotEmpty(token) && token.startsWith(HttpConstants.PREFIX)) {
+            token = token.replaceFirst(HttpConstants.PREFIX, StrUtil.EMPTY);
+        }
+        LoginUser loginUser = tokenService.getLoginUser(token, secret);
+        if(loginUser==null){
+            return R.fail();
+        }
+        LoginUserVO loginUserVO = new LoginUserVO();
+        loginUserVO.setNickname(loginUser.getNickname());
+        return R.ok(loginUserVO);
     }
 }

@@ -15,5 +15,6 @@ public class SysUser extends BaseEntity {
     @TableId(type = IdType.ASSIGN_ID)
     private Long userId;//使用雪花算法
     private String userAccount;
+    private String nickName;
     private String password;
 }

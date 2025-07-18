@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class LoginUser {
     private Integer identity;
+    private String nickname;
 }

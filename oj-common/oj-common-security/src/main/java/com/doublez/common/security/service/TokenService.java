@@ -22,42 +22,63 @@ public class TokenService {
     @Autowired
     private RedisService redisService;
 
-    public String createToken(Long userId,String secret,Integer identity) {
+    public String createToken(Long userId,String secret,Integer identity,String nickName) {
         Map<String,Object> claims = new HashMap<>();
         String userKey = UUID.randomUUID().toString();
         claims.put(JwtConstants.Login_User_ID,userId);
         claims.put(JwtConstants.Login_User_Key,userKey);
         String token = JwtUtils.createToken(claims, secret);
         //3.2 将用户信息存储到redis中
-        String key = CacheConstants.Login_Token_Key + userKey;
+        String key = getRedisUserKey(userKey);
         //1 表示c端用户 2 表示管理员用户
         LoginUser loginUser = new LoginUser();
         loginUser.setIdentity(identity);
+        loginUser.setNickname(nickName);
         redisService.setCacheObject(key,loginUser, CacheConstants.Login_Token_expire, TimeUnit.MINUTES);
 
         return token;
     }
 
     public void extendToken(String token, String secret) {
+        String userKey = getUserKey(token,secret);
+        if(userKey == null) {
+            return;
+        }
+        String Key = getRedisUserKey(userKey);
+        //redis查询
+        Long expire = redisService.getExpire(Key, TimeUnit.MINUTES);
+        if(expire != null && expire < CacheConstants.Login_Token_Refresh){
+            redisService.expire(Key, CacheConstants.Login_Token_expire, TimeUnit.MINUTES);
+        }
+    }
+    public LoginUser getLoginUser(String token,String secret) {
+        String userKey = getUserKey(token, secret);
+        if(userKey == null) {
+            return null;
+        }
+        String key = getRedisUserKey(userKey);
+        return redisService.getCacheObject(key, LoginUser.class);
+    }
+
+    private static String getRedisUserKey(String userKey) {
+        return CacheConstants.Login_Token_Key + userKey;
+    }
+
+    public String getUserKey(String token, String secret) {
         Claims claims;
         try {
             claims = JwtUtils.parseToken(token, secret);
             //正常来说不会为空，以防万一
             if (claims == null) {
                 log.error("解析token：{}, 出现异常", token);
-                return;
+                return null;
             }
             //正常来说不会抛异常，以防万一
         } catch (Exception e) {
             log.error("解析token：{}, 出现异常", token);
-            return;
+            return null;
         }
         //获取key
-        String userKey = JwtUtils.getUserKey(claims);
-        //redis查询
-        Long expire = redisService.getExpire(userKey, TimeUnit.MINUTES);
-        if(expire != null && expire < CacheConstants.Login_Token_Refresh){
-            redisService.expire(userKey, CacheConstants.Login_Token_expire, TimeUnit.MINUTES);
-        }
+        return JwtUtils.getUserKey(claims);
     }
 }

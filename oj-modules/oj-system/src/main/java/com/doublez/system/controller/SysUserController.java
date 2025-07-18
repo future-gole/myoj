@@ -1,19 +1,21 @@
 package com.doublez.system.controller;
 
+import com.doublez.common.core.constants.HttpConstants;
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
+import com.doublez.common.core.domain.vo.LoginUserVO;
 import com.doublez.system.domain.DTO.LoginDTO;
 import com.doublez.system.domain.DTO.SysUserSaveDTO;
 import com.doublez.system.service.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @Tag(name = "管理员接口")
 @RestController
 @RequestMapping("/sysUser")
@@ -38,5 +40,11 @@ public class SysUserController extends BaseController {
     @ApiResponse(responseCode = "3101", description = "用户已存在")
     public R<Void> add(@Validated @RequestBody SysUserSaveDTO sysUserSaveDTO) {
         return toR(sysUserService.add(sysUserSaveDTO));
+    }
+
+    @Operation(summary = "获取管理员nickname", description = "根据token获取nickname")
+    @GetMapping("/info")
+    public R<LoginUserVO> info(@RequestHeader(HttpConstants.AUTHENTICATION) String token) {
+        return sysUserService.info(token);
     }
 }
