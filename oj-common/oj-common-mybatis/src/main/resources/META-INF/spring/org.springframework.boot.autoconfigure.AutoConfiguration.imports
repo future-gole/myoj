@@ -1,1 +1,2 @@
 com.doublez.common.redis.MyMetaObjectHandler
+com.doublez.common.redis.MybatisPlusConfig

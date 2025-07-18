@@ -1,4 +1,4 @@
-package com.doublez.common.core.domain.vo;
+package com.doublez.system.domain.sysuser.vo;
 
 import lombok.Getter;
 import lombok.Setter;

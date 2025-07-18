@@ -1,8 +1,8 @@
-package com.doublez.system.service;
+package com.doublez.system.service.sysuser;
 
 import com.doublez.common.core.domain.R;
-import com.doublez.common.core.domain.vo.LoginUserVO;
-import com.doublez.system.domain.DTO.SysUserSaveDTO;
+import com.doublez.system.domain.sysuser.vo.LoginUserVO;
+import com.doublez.system.domain.sysuser.dto.SysUserSaveDTO;
 import jakarta.validation.constraints.NotBlank;
 
 public interface ISysUserService {
@@ -11,4 +11,6 @@ public interface ISysUserService {
     int add(SysUserSaveDTO sysUserSaveDTO);
 
     R<LoginUserVO> info(@NotBlank String token);
+
+    boolean logout(String token);
 }

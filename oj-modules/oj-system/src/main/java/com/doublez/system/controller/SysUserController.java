@@ -3,15 +3,13 @@ package com.doublez.system.controller;
 import com.doublez.common.core.constants.HttpConstants;
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
-import com.doublez.common.core.domain.vo.LoginUserVO;
-import com.doublez.system.domain.DTO.LoginDTO;
-import com.doublez.system.domain.DTO.SysUserSaveDTO;
-import com.doublez.system.service.ISysUserService;
+import com.doublez.system.domain.sysuser.vo.LoginUserVO;
+import com.doublez.system.domain.sysuser.dto.LoginDTO;
+import com.doublez.system.domain.sysuser.dto.SysUserSaveDTO;
+import com.doublez.system.service.sysuser.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +44,11 @@ public class SysUserController extends BaseController {
     @GetMapping("/info")
     public R<LoginUserVO> info(@RequestHeader(HttpConstants.AUTHENTICATION) String token) {
         return sysUserService.info(token);
+    }
+
+    @Operation(summary = "退出登陆", description = "退出登陆删除对应redis中的key")
+    @GetMapping("/logout")
+    public R<Void> logout(@RequestHeader(HttpConstants.AUTHENTICATION) String token) {
+        return toR(sysUserService.logout(token));
     }
 }

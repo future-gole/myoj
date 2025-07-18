@@ -1,7 +1,7 @@
 package com.doublez.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.doublez.system.domain.Entity.SysUser;
+import com.doublez.system.domain.sysuser.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

@@ -72,10 +72,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
         try {
             claims = JwtUtils.parseToken(token, secret);
             if (claims == null) {
-                return unauthorizedResponse(exchange, "令牌已过期或验证不正确！");
+                return unauthorizedResponse(exchange, "令牌验证不正确！");
             }
         } catch (Exception e) {
-            return unauthorizedResponse(exchange, "令牌已过期或验证不正确！");
+            return unauthorizedResponse(exchange, "令牌验证不正确！");
         }
 
         //5. 通过redis中存储的数据，来控制jwt的过期时间（interceptor来判断）

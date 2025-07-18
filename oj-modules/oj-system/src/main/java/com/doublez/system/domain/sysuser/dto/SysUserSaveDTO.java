@@ -1,4 +1,4 @@
-package com.doublez.system.domain.DTO;
+package com.doublez.system.domain.sysuser.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
