@@ -20,8 +20,10 @@ public enum ResultCode {
     AILED_USER_EXISTS (3101, "⽤⼾已存在"),
     FAILED_USER_NOT_EXISTS (3102, "⽤⼾不存在"),
     FAILED_LOGIN (3103, "⽤⼾名或密码错误"),
-    FAILED_USER_BANNED (3104, "您已被列⼊⿊名单, 请联系管理员.");
+    FAILED_USER_BANNED (3104, "您已被列⼊⿊名单, 请联系管理员."),
 
+    EXAM_START_TIME_BEFORE_CURRENT_TIME(3202,"开始时间不能在当前时间之前"),
+    EXAM_START_TIME_AFTER_END_TIME(3202,"开始时间不能晚于结束时间");
     private final int code;
     private final String msg;
 }
