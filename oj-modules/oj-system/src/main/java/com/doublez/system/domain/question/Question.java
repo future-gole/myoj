@@ -15,7 +15,6 @@ public class Question extends BaseEntity {
     private Long questionId;
 
     private String title;
-
     /**
      * 难度： 1 简单，2中等，3困难
      */
