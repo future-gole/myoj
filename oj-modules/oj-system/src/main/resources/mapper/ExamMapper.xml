@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.doublez.system.mapper.ExamMapper">
+
+    <select id="selectExamList" resultType="com.doublez.system.domain.exam.vo.ExamVO">
+        SELECT
+        te.exam_id,
+        te.title,
+        te.start_time,
+        te.end_time,
+        te.create_time,
+        ts.nick_name as create_name,
+        te.status
+        FROM
+        tb_exam te
+        left join
+        tb_sys_user ts
+        on
+        te.create_by = ts.user_id
+        <where>
+            <if test="query.title !=null and query.title !='' ">
+                AND te.title LIKE CONCAT('%',#{query.title},'%')
+            </if>
+            <if test="query.startTime != null and query.startTime != '' ">
+                AND te.start_time >= #{query.startTime}
+            </if>
+            <if test="query.endTime != null and query.endTime != ''">
+                AND te.end_time &lt;= #{query.endTime}
+            </if>
+        </where>
+        ORDER BY
+        te.create_time DESC
+    </select>
+</mapper>

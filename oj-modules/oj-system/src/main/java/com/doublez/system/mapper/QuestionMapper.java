@@ -14,5 +14,5 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper extends BaseMapper<Question> {
 
-    IPage<QuestionVO> selectQuestionList(IPage<QuestionVO> page, @Param("query") QuestionQueryDTO questionQueryDTO);
+    IPage<QuestionVO> selectQuestionList(IPage<QuestionVO> page, @Param("query")QuestionQueryDTO questionQueryDTO);
 }
