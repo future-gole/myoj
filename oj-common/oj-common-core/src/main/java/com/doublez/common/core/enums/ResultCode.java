@@ -23,7 +23,12 @@ public enum ResultCode {
     FAILED_USER_BANNED (3104, "您已被列⼊⿊名单, 请联系管理员."),
 
     EXAM_START_TIME_BEFORE_CURRENT_TIME(3202,"开始时间不能在当前时间之前"),
-    EXAM_START_TIME_AFTER_END_TIME(3202,"开始时间不能晚于结束时间");
+    EXAM_START_TIME_AFTER_END_TIME(3202,"开始时间不能晚于结束时间"),
+
+    EXAM_NOT_EXITS(3203,"竞赛不存在"),
+    EXAM_QUESTION_NOT_EXITS(3204,"竞赛所需添加的题目不存在"),
+    EXAM_IS_PUBLISH(3205,"竞赛已经发布"),
+    EXAM_STARTED(3206,"竞赛已经开始");
     private final int code;
     private final String msg;
 }
