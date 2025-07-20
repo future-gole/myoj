@@ -12,7 +12,7 @@ import com.doublez.system.domain.exam.vo.ExamVO;
 public interface IExamService {
     IPage<ExamVO> list(ExamQueryDTO examQueryDTO);
 
-    int add(ExamAddDTO examQueryDTO);
+    String add(ExamAddDTO examQueryDTO);
 
     boolean questionAdd(ExamQuestionAddDTO examQuestionAddDTO);
 

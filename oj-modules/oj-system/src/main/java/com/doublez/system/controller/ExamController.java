@@ -28,8 +28,8 @@ public class ExamController extends BaseController {
     }
 
     @PostMapping("/add")
-    public R<Void> add(@RequestBody ExamAddDTO examQueryDTO) {
-        return toR(examService.add(examQueryDTO));
+    public R<String> add(@RequestBody ExamAddDTO examQueryDTO) {
+        return R.ok(examService.add(examQueryDTO));
     }
 
     @PostMapping("/question/add")

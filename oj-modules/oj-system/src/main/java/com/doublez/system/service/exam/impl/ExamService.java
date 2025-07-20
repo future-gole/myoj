@@ -49,10 +49,11 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
     }
 
     @Override
-    public int add(ExamAddDTO examAddDTO) {
+    public String add(ExamAddDTO examAddDTO) {
         checkExamSaveParams(examAddDTO,null);
         Exam exam = BeanUtil.copyProperties(examAddDTO, Exam.class);
-        return examMapper.insert(exam);
+        examMapper.insert(exam);
+        return exam.getExamId().toString();
     }
 
 
