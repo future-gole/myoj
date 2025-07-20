@@ -24,11 +24,11 @@
             <if test="query.title !=null and query.title !='' ">
                 AND title LIKE CONCAT('%',#{query.title},'%')
             </if>
-<!--            <if test="excludeIdSet !=null and !excludeIdSet.isEmpty()">-->
-<!--                <foreach collection="excludeIdSet" open=" AND tq.question_id NOT IN( " close=" ) " item="id" separator=",">-->
-<!--                    #{id}-->
-<!--                </foreach>-->
-<!--            </if>-->
+            <if test="query.excludeIdSet !=null and !query.excludeIdSet.isEmpty()">
+                <foreach collection="query.excludeIdSet" open=" AND tq.question_id NOT IN( " close=" ) " item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
         </where>
         ORDER BY
         create_time DESC

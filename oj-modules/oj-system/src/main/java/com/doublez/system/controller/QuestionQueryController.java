@@ -1,5 +1,7 @@
 package com.doublez.system.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.domain.vo.TableDataInfo;
@@ -15,6 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @RestController
 @Tag(name = "管理员端的题目接口")
 @RequestMapping("/question")
@@ -25,6 +31,13 @@ public class QuestionQueryController extends BaseController {
     @Operation(summary = "获取题目列表")
     @GetMapping("/list")
     public TableDataInfo list(QuestionQueryDTO queryDTO){
+        //提取已经存在的题目id信息
+        String excludeIdStr = queryDTO.getExcludeIdStr();
+        if(StrUtil.isNotEmpty(excludeIdStr)){
+            String[] excludeIds = excludeIdStr.split(Constants.SPLIT);
+            Set<Long> collect = Arrays.stream(excludeIds).map(Long::valueOf).collect(Collectors.toSet());
+            queryDTO.setExcludeIdSet(collect);
+        }
         return getTableDataInfo(questionService.list(queryDTO));
     }
 
@@ -41,7 +54,7 @@ public class QuestionQueryController extends BaseController {
     }
 
     @Operation(summary = "修改题目详情")
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     public R<Void> edit(@Validated @RequestBody QuestionEditDTO editDTO){
         return toR(questionService.edit(editDTO));
     }
