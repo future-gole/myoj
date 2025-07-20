@@ -37,6 +37,11 @@ public class ExamController extends BaseController {
         return toR(examService.questionAdd(examQuestionAddDTO));
     }
 
+    @DeleteMapping("/question/delete")
+    public R<Void> questionDelete(Long examId, Long questionId) {
+        return toR(examService.questionDelete(examId, questionId));
+    }
+
     @GetMapping("/detail")
     public R<ExamDetailVO> detail(Long examId) {
         return R.ok(examService.getDetail(examId));

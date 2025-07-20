@@ -121,6 +121,18 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
         return examMapper.deleteById(exam);
     }
 
+    @Override
+    public int questionDelete(Long examId, Long questionId) {
+        Exam exam = getExam(examId);
+        checkExam(exam);
+        if (Constants.TRUE.equals(exam.getStatus())) {
+            throw new ServiceException(ResultCode.EXAM_IS_PUBLISH);
+        }
+        return examQuestionMapper.delete(new LambdaQueryWrapper<ExamQuestion>()
+                .eq(ExamQuestion::getExamId, examId)
+                .eq(ExamQuestion::getQuestionId, questionId));
+    }
+
     private void checkExam(Exam exam) {
         if (exam.getStartTime().isBefore(LocalDateTime.now())) {
             throw new ServiceException(ResultCode.EXAM_STARTED);
