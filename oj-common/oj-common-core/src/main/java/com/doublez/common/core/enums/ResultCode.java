@@ -28,7 +28,9 @@ public enum ResultCode {
     EXAM_NOT_EXITS(3203,"竞赛不存在"),
     EXAM_QUESTION_NOT_EXITS(3204,"竞赛所需添加的题目不存在"),
     EXAM_IS_PUBLISH(3205,"竞赛已经发布"),
-    EXAM_STARTED(3206,"竞赛已经开始");
+    EXAM_STARTED(3206,"竞赛已经开始"),
+    EXAM_IS_FINISH(3207,"竞赛已经发布" ),
+    EXAM_NOT_HAS_QUESTION(3208,"竞赛没有题目" );
     private final int code;
     private final String msg;
 }
