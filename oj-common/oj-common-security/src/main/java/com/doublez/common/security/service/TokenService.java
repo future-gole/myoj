@@ -47,7 +47,7 @@ public class TokenService {
         String Key = getRedisUserKey(userKey);
         //redis查询
         Long expire = redisService.getExpire(Key, TimeUnit.MINUTES);
-        if(expire != null && expire < CacheConstants.Login_Token_Refresh){
+        if(expire != null && expire < CacheConstants.LOGIN_TOKEN_REFRESH){
             redisService.expire(Key, CacheConstants.Login_Token_expire, TimeUnit.MINUTES);
         }
     }

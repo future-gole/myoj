@@ -17,6 +17,7 @@
         <module>oj-modules</module>
         <module>oj-common</module>
         <module>oj-gateway</module>
+        <module>oj-common/oj-common-message</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -30,6 +31,7 @@
         <oj-common-security.version>1.0-SNAPSHOT</oj-common-security.version>
         <oj-common-redis.version>1.0-SNAPSHOT</oj-common-redis.version>
         <oj-common-mybatis.version>1.0-SNAPSHOT</oj-common-mybatis.version>
+        <oj-common-message.version>1.0-SNAPSHOT</oj-common-message.version>
         <spring-openapi.version>2.2.0</spring-openapi.version>
         <fastjson2.version>2.0.43</fastjson2.version>
         <hutool-all.version>5.8.22</hutool-all.version>
@@ -102,6 +104,11 @@
                 <groupId>com.doublez</groupId>
                 <artifactId>oj-common-mybatis</artifactId>
                 <version>${oj-common-mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.doublez</groupId>
+                <artifactId>oj-common-message</artifactId>
+                <version>${oj-common-message.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

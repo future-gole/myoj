@@ -23,6 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/**/login",
                         "/**/swagger-ui",
+                        "/user/**",
                         "/v3/api-docs")
                 .addPathPatterns("/**");
     }

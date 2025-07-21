@@ -30,7 +30,9 @@ public enum ResultCode {
     EXAM_IS_PUBLISH(3205,"竞赛已经发布"),
     EXAM_STARTED(3206,"竞赛已经开始"),
     EXAM_IS_FINISH(3207,"竞赛已经发布" ),
-    EXAM_NOT_HAS_QUESTION(3208,"竞赛没有题目" );
+    EXAM_NOT_HAS_QUESTION(3208,"竞赛没有题目" ),
+
+    EMAIL_CODE_FAIL_SEND(3201,"邮箱验证码发送失败");
     private final int code;
     private final String msg;
 }
