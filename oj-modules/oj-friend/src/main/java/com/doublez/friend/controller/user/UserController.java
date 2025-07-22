@@ -1,10 +1,10 @@
-package com.doublez.friend.controller;
+package com.doublez.friend.controller.user;
 
 import com.doublez.common.core.constants.HttpConstants;
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
-import com.doublez.friend.domain.dto.UserDTO;
-import com.doublez.friend.domain.vo.LoginUserVO;
+import com.doublez.friend.domain.user.dto.UserDTO;
+import com.doublez.friend.domain.user.vo.LoginUserVO;
 import com.doublez.friend.service.IUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

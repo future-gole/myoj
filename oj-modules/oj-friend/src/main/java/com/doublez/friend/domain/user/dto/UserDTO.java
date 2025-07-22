@@ -1,4 +1,4 @@
-package com.doublez.friend.domain.dto;
+package com.doublez.friend.domain.user.dto;
 
 import jakarta.validation.constraints.Email;
 import lombok.Getter;

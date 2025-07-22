@@ -19,6 +19,7 @@ import com.doublez.system.domain.exam.vo.ExamDetailVO;
 import com.doublez.system.domain.exam.vo.ExamVO;
 import com.doublez.system.domain.question.Question;
 import com.doublez.system.domain.question.vo.QuestionVO;
+import com.doublez.system.manager.ExamCacheManager;
 import com.doublez.system.mapper.ExamMapper;
 import com.doublez.system.mapper.ExamQuestionMapper;
 import com.doublez.system.mapper.QuestionMapper;
@@ -41,6 +42,9 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
 
     @Autowired
     private ExamQuestionMapper examQuestionMapper;
+
+    @Autowired
+    private ExamCacheManager examCacheManager;
 
     @Override
     public IPage<ExamVO> list(ExamQueryDTO examQueryDTO) {
@@ -137,7 +141,6 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
     @Override
     public int publish(Long examId) {
         Exam exam = getExam(examId);
-        //select count(0) from tb_exam_question where exam_id = #{examId}
         if (exam.getEndTime().isBefore(LocalDateTime.now())) {
             throw new ServiceException(ResultCode.EXAM_IS_FINISH);
         }
@@ -147,6 +150,8 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
             throw new ServiceException(ResultCode.EXAM_NOT_HAS_QUESTION);
         }
         exam.setStatus(Constants.TRUE);
+        //新发布的竞赛存入redis
+        examCacheManager.addCache(exam);
         return examMapper.updateById(exam);
     }
 
@@ -158,9 +163,11 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
             throw new ServiceException(ResultCode.EXAM_IS_FINISH);
         }
         exam.setStatus(Constants.FALSE);
+        //删除缓存的reids
+        examCacheManager.deleteCache(examId);
         return examMapper.updateById(exam);
     }
-
+    //判断比赛是否已经开始
     private void checkExam(Exam exam) {
         if (exam.getStartTime().isBefore(LocalDateTime.now())) {
             throw new ServiceException(ResultCode.EXAM_STARTED);

@@ -1,4 +1,4 @@
-package com.doublez.friend.domain.vo;
+package com.doublez.friend.domain.user.vo;
 
 import lombok.Data;
 import lombok.Getter;
