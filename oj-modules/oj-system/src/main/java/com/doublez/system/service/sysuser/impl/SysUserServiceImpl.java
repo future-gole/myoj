@@ -48,7 +48,7 @@ public class SysUserServiceImpl implements ISysUserService {
         //3. 正确
         //3.1 创建token
 
-        return R.ok(tokenService.createToken(sysUser.getUserId(),secret, UserIdentity.ADMIN.getCode(),sysUser.getNickName()));
+        return R.ok(tokenService.createToken(sysUser.getUserId(),secret, UserIdentity.ADMIN.getCode(),sysUser.getNickName(),null));
     }
 
     @Override

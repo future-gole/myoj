@@ -7,5 +7,6 @@ public class CacheConstants {
     public final static Long LOGIN_TOKEN_REFRESH = 180L;
 
     public final static String EMAIL_CODE_KEY = "e:c:";
+    public final static String EMAIL_CODE_KEY_LIMIT = "e:t:";
 
 }

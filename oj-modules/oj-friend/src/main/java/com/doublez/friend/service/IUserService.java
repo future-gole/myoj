@@ -1,5 +1,8 @@
 package com.doublez.friend.service;
 
+import com.doublez.common.core.domain.R;
+import com.doublez.friend.domain.dto.UserDTO;
+import com.doublez.friend.domain.vo.LoginUserVO;
 import jakarta.validation.constraints.Email;
 
 public interface IUserService {
@@ -8,4 +11,8 @@ public interface IUserService {
 //    String codeLogin(String phone, String code);
 
     boolean sendCode(@Email String email);
+
+    String codeLogin(UserDTO user);
+
+    R<LoginUserVO> info(String token);
 }
