@@ -25,9 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.doublez</groupId>
-            <artifactId>oj-system</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <artifactId>oj-common-elasticsearch</artifactId>
         </dependency>
     </dependencies>
 </project>

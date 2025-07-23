@@ -15,7 +15,7 @@ import java.util.List;
 public interface IQuestionService {
     IPage<QuestionVO> list(QuestionQueryDTO queryDTO);
 
-    int add(QuestionAddDTO addDTO);
+    boolean add(QuestionAddDTO addDTO);
 
     QuestionDetailVO getDetail(@NotNull Long questionId);
 

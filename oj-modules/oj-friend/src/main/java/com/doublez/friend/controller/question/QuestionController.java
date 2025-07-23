@@ -1,0 +1,26 @@
+package com.doublez.friend.controller.question;
+
+import com.doublez.common.core.controller.BaseController;
+import com.doublez.common.core.domain.vo.TableDataInfo;
+import com.doublez.friend.domain.question.QuestionQueryDTO;
+import com.doublez.friend.service.question.IQuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/question")
+public class QuestionController extends BaseController {
+
+    @Autowired
+    private IQuestionService questionService;
+
+    @GetMapping("/semiLogin/list")
+    public TableDataInfo list(QuestionQueryDTO questionQueryDTO) {
+        return questionService.list(questionQueryDTO);
+    }
+
+
+
+}

@@ -13,8 +13,10 @@ import com.doublez.system.domain.question.Question;
 import com.doublez.system.domain.question.dto.QuestionAddDTO;
 import com.doublez.system.domain.question.dto.QuestionEditDTO;
 import com.doublez.system.domain.question.dto.QuestionQueryDTO;
+import com.doublez.system.domain.question.es.QuestionES;
 import com.doublez.system.domain.question.vo.QuestionDetailVO;
 import com.doublez.system.domain.question.vo.QuestionVO;
+import com.doublez.system.elasticsearch.QuestionRepository;
 import com.doublez.system.mapper.QuestionMapper;
 import com.doublez.system.service.question.IQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class QuestionService implements IQuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @Override
     public IPage<QuestionVO> list(QuestionQueryDTO queryDTO) {
@@ -37,13 +42,19 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public int add(QuestionAddDTO addDTO) {
+    public boolean add(QuestionAddDTO addDTO) {
         Long count = questionMapper.selectCount(new LambdaQueryWrapper<Question>().eq(Question::getTitle, addDTO.getTitle()));
         if (count > 0) {
             throw new ServiceException(ResultCode.FAILED_NOT_EXISTS);
         }
         Question question = BeanUtil.copyProperties(addDTO, Question.class);
-        return questionMapper.insert(question);
+        if(questionMapper.insert(question) < 0){
+            return false;
+        }
+        QuestionES questionES = BeanUtil.copyProperties(question, QuestionES.class);
+        questionRepository.save(questionES);
+        questionCacheManager.addCache(question.getQuestionId());
+        return true;
     }
 
     @Override
@@ -56,11 +67,14 @@ public class QuestionService implements IQuestionService {
     public int edit(QuestionEditDTO editDTO) {
         Question question = getQuestionById(editDTO.getQuestionId());
         BeanUtil.copyProperties(editDTO, question);
+        QuestionES questionES = BeanUtil.copyProperties(editDTO, QuestionES.class);
+        questionRepository.save(questionES);
         return questionMapper.updateById(question);
     }
 
     @Override
     public int delete(Long questionId) {
+        questionRepository.deleteById(questionId);
         return questionMapper.deleteById(questionId);
     }
 

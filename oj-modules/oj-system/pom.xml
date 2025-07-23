@@ -19,6 +19,9 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.doublez</groupId>
+            <artifactId>oj-common-elasticsearch</artifactId>
+        </dependency>
     </dependencies>
 </project>
