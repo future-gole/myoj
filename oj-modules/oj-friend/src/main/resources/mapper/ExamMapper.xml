@@ -14,19 +14,19 @@
         tb_exam te
         where
         status = 1
-        <if test="title !=null and title !='' ">
-            AND te.title LIKE CONCAT('%',#{title},'%')
+        <if test="query.title !=null and query.title !='' ">
+            AND te.title LIKE CONCAT('%',#{query.title},'%')
         </if>
-        <if test="startTime != null and startTime != '' ">
-            AND te.start_time >= #{startTime}
+        <if test="query.startTime != null and query.startTime != '' ">
+            AND te.start_time >= #{query.startTime}
         </if>
-        <if test="endTime != null and endTime != ''">
-            AND te.end_time &lt;= #{endTime}
+        <if test="query.endTime != null and query.endTime != ''">
+            AND te.end_time &lt;= #{query.endTime}
         </if>
-        <if test="type == 0">
+        <if test="query.type == 0">
             And te.end_time > NOW()
         </if>
-        <if test="type == 1">
+        <if test="query.type == 1">
             And te.end_time &lt;= NOW()
         </if>
         ORDER BY

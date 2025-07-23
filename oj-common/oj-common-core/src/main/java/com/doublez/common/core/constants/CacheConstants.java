@@ -15,4 +15,10 @@ public class CacheConstants {
 
     public final static String EXAM_DETAIL = "e:d:";    //竞赛详情信息
 
+    public static final String USER_MESSAGE_LIST = "u:m:l:";
+
+    public static final String MESSAGE_DETAIL = "m:d:";
+
+    public static final String EXAM_RANK_LIST = "e:r:l:";
+
 }

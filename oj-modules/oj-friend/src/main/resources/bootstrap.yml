@@ -15,4 +15,10 @@ spring:
         namespace: f7b8dfd9-cf5c-4362-aeda-c2787cc342dc
         server-addr: http://localhost:8848
         file-extension: yaml
-
+mybatis-plus:
+  # Mapper XML 文件位置
+  mapper-locations: classpath:/mapper/**/*.xml
+  configuration:
+    # 日志打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true

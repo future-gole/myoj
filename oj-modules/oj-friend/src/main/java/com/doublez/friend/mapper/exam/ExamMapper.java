@@ -7,8 +7,9 @@ import com.doublez.friend.domain.exam.Exam;
 import com.doublez.friend.domain.exam.dto.ExamQueryDTO;
 import com.doublez.friend.domain.exam.vo.ExamVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ExamMapper extends BaseMapper<Exam> {
-    IPage<ExamVO> selectExamList(Page<ExamVO> page, ExamQueryDTO examQueryDTO);
+    IPage<ExamVO> selectExamList(Page<ExamVO> page, @Param("query") ExamQueryDTO examQueryDTO);
 }
