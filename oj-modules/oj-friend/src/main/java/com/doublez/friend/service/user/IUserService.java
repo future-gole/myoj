@@ -1,4 +1,4 @@
-package com.doublez.friend.service;
+package com.doublez.friend.service.user;
 
 import com.doublez.common.core.domain.R;
 import com.doublez.friend.domain.user.dto.UserDTO;

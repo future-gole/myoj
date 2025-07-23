@@ -140,4 +140,12 @@ public class ExamCacheManager {
     }
 
 
+    public void addUserExamCache(Long userId, Long examId) {
+        String userExamListKey = getUserExamListKey(userId);
+        redisService.leftPushForList(userExamListKey, examId);
+    }
+
+    private String getUserExamListKey(Long userId) {
+        return CacheConstants.USER_EXAM_LIST + userId;
+    }
 }

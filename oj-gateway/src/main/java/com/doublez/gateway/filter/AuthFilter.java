@@ -4,11 +4,13 @@ package com.doublez.gateway.filter;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.doublez.common.core.constants.CacheConstants;
+import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.constants.HttpConstants;
 import com.doublez.common.core.domain.LoginUser;
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.enums.ResultCode;
 import com.doublez.common.core.enums.UserIdentity;
+import com.doublez.common.core.utils.ThreadLocalUtil;
 import com.doublez.common.redis.service.RedisService;
 import com.doublez.common.core.utils.JwtUtils;
 import com.doublez.gateway.properties.IgnoreWhiteProperties;
@@ -98,6 +100,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
         if (url.contains(HttpConstants.FRIEND_URL_PREFIX) && !UserIdentity.ORDINARY.getCode().equals(user.getIdentity())) {
             return unauthorizedResponse(exchange, "令牌验证失败");
         }
+        //不能在这边放入id，因为是网关和和其他微服务是不同的服务，ThreadLocal不共享，改为在对应微服务的拦截器中
+//        ThreadLocalUtil.set(Constants.USER_ID, userId);
 
         return chain.filter(exchange);
     }

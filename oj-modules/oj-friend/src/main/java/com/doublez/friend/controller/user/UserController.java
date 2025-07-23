@@ -5,7 +5,7 @@ import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
 import com.doublez.friend.domain.user.dto.UserDTO;
 import com.doublez.friend.domain.user.vo.LoginUserVO;
-import com.doublez.friend.service.IUserService;
+import com.doublez.friend.service.user.IUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

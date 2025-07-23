@@ -21,4 +21,8 @@ public class CacheConstants {
 
     public static final String EXAM_RANK_LIST = "e:r:l:";
 
+    public final static String USER_EXAM_LIST = "u:e:l:";   //用户竞赛列表
+
+    public final static String USER_DETAIL = "u:d:";   //用户详情信息
+
 }

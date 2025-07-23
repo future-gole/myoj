@@ -1,4 +1,4 @@
-package com.doublez.friend.mapper;
+package com.doublez.friend.mapper.user;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.doublez.friend.domain.user.User;

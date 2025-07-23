@@ -1,4 +1,4 @@
-package com.doublez.friend.service.impl;
+package com.doublez.friend.service.user.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -16,8 +16,8 @@ import com.doublez.common.security.exception.ServiceException;
 import com.doublez.friend.domain.user.User;
 import com.doublez.friend.domain.user.dto.UserDTO;
 import com.doublez.friend.domain.user.vo.LoginUserVO;
-import com.doublez.friend.mapper.UserMapper;
-import com.doublez.friend.service.IUserService;
+import com.doublez.friend.mapper.user.UserMapper;
+import com.doublez.friend.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

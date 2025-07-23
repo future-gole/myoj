@@ -75,6 +75,19 @@ public class TokenService {
     }
 
     public String getUserKey(String token, String secret) {
+        Claims claims = getClaims(token, secret);
+        if (claims == null) return null;
+        //获取key
+        return JwtUtils.getUserKey(claims);
+    }
+
+    public Long getUserId(String token, String secret) {
+        Claims claims = getClaims(token, secret);
+        if (claims == null) return null;
+        return Long.valueOf(JwtUtils.getUserId(claims));
+    }
+
+    private static Claims getClaims(String token, String secret) {
         Claims claims;
         try {
             claims = JwtUtils.parseToken(token, secret);
@@ -88,7 +101,6 @@ public class TokenService {
             log.error("解析token：{}, 出现异常", token);
             return null;
         }
-        //获取key
-        return JwtUtils.getUserKey(claims);
+        return claims;
     }
 }

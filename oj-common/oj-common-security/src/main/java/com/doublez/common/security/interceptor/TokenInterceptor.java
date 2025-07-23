@@ -1,7 +1,9 @@
 package com.doublez.common.security.interceptor;
 
 import cn.hutool.core.util.StrUtil;
+import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.constants.HttpConstants;
+import com.doublez.common.core.utils.ThreadLocalUtil;
 import com.doublez.common.security.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,6 +24,9 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = getToken(request);
+        Long userId = tokenService.getUserId(token, secret);
+        //存入userId
+        ThreadLocalUtil.set(Constants.USER_ID, userId);
         tokenService.extendToken(token, secret);
         return true;
     }
@@ -33,5 +38,10 @@ public class TokenInterceptor implements HandlerInterceptor {
             token = token.replaceFirst(HttpConstants.PREFIX, StrUtil.EMPTY);
         }
         return token;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        ThreadLocalUtil.remove();
     }
 }
