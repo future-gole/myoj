@@ -1,6 +1,7 @@
 package com.doublez.friend.manager;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -15,6 +16,7 @@ import com.doublez.friend.domain.exam.dto.ExamQueryDTO;
 import com.doublez.friend.domain.exam.vo.ExamVO;
 import com.doublez.friend.mapper.exam.ExamMapper;
 import com.doublez.friend.domain.exam.Exam;
+import com.doublez.friend.mapper.user.UserExamMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +34,8 @@ public class ExamCacheManager {
     @Autowired
     private ExamMapper examMapper;
 
-
+    @Autowired
+    private UserExamMapper userExamMapper;
     @Autowired
     private RedisService redisService;
 
@@ -74,10 +77,11 @@ public class ExamCacheManager {
                     .eq(Exam::getStatus, Constants.TRUE)
                     .orderByDesc(Exam::getCreateTime));
         }
-//        else if (ExamListType.USER_EXAM_LIST.getValue().equals(examListType)) {
-//            List<ExamVO> examVOList = userExamMapper.selectUserExamList(userId);
-//            examList = BeanUtil.copyToList(examVOList, Exam.class);
-//        }
+        else if (ExamListType.USER_EXAM_LIST.getValue().equals(examListType)) {
+            //查询用户竞赛
+            List<ExamVO> examVOList = userExamMapper.selectUserExamList(userId);
+            examList = BeanUtil.copyToList(examVOList, Exam.class);
+        }
         if (CollectionUtil.isEmpty(examList)) {
             return;
         }
@@ -131,8 +135,10 @@ public class ExamCacheManager {
             return CacheConstants.EXAM_UNFINISHED_LIST;
         } else if (ExamListType.EXAM_HISTORY_LIST.getValue().equals(examListType)) {
             return CacheConstants.EXAM_HISTORY_LIST;
+        }else if (ExamListType.USER_EXAM_LIST.getValue().equals(examListType)) {
+            return CacheConstants.USER_EXAM_LIST + userId;
         }
-        return "";
+        return null;
     }
 
     private String getDetailKey(Long examId) {

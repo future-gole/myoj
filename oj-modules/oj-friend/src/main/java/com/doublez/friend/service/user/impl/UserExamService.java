@@ -2,6 +2,8 @@ package com.doublez.friend.service.user.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.domain.vo.TableDataInfo;
 import com.doublez.common.core.enums.ExamListType;
@@ -69,32 +71,30 @@ public class UserExamService implements IUserExamService {
         return userExamMapper.insert(userExam);
     }
 
+
+//
+//    先查询缓存（u:e:l:用户id）  如果缓存能够查询到
+//    如果查询不到   数据库当中再去查询  并且将数据库中的数据同步给redis
     @Override
     public TableDataInfo list(ExamQueryDTO examQueryDTO) {
-        return null;
+        Long userId = ThreadLocalUtil.get(Constants.USER_ID, Long.class);
+        examQueryDTO.setType(ExamListType.USER_EXAM_LIST.getValue());
+        Long total = examCacheManager.getListSize(ExamListType.USER_EXAM_LIST.getValue(), userId);
+        List<ExamVO> examVOList;
+        if (total == null || total <= 0) {
+            //从数据库中查询我的竞赛列表
+            Page<ExamVO> examVOPage = new Page<>(examQueryDTO.getPageNum(), examQueryDTO.getPageSize());
+            IPage<ExamVO> examVOIPage = userExamMapper.selectUserExamList(examVOPage, userId);
+            examVOList = examVOIPage.getRecords();
+            total = examVOIPage.getTotal();
+            examCacheManager.refreshCache(ExamListType.USER_EXAM_LIST.getValue(), userId);
+        } else {
+            examVOList = examCacheManager.getExamVOList(examQueryDTO, userId);
+            total = examCacheManager.getListSize(examQueryDTO.getType(), userId);
+        }
+        if (CollectionUtil.isEmpty(examVOList)) {
+            return TableDataInfo.empty();
+        }
+        return TableDataInfo.success(examVOList, total);
     }
-
-    //先查询缓存（u:e:l:用户id）  如果缓存能够查询到
-    //如果查询不到   数据库当中再去查询  并且将数据库中的数据同步给redis
-//    @Override
-//    public TableDataInfo list(ExamQueryDTO examQueryDTO) {
-//        Long userId = ThreadLocalUtil.get(Constants.USER_ID, Long.class);
-//        examQueryDTO.setType(ExamListType.USER_EXAM_LIST.getValue());
-//        Long total = examCacheManager.getListSize(ExamListType.USER_EXAM_LIST.getValue(), userId);
-//        List<ExamVO> examVOList;
-//        if (total == null || total <= 0) {
-//            //从数据库中查询我的竞赛列表
-////            PageHelper.startPage(examQueryDTO.getPageNum(), examQueryDTO.getPageSize());
-//            examVOList = userExamMapper.selectUserExamList(userId);
-//            examCacheManager.refreshCache(ExamListType.USER_EXAM_LIST.getValue(), userId);
-//            total = new PageInfo<>(examVOList).getTotal();
-//        } else {
-//            examVOList = examCacheManager.getExamVOList(examQueryDTO, userId);
-//            total = examCacheManager.getListSize(examQueryDTO.getType(), userId);
-//        }
-//        if (CollectionUtil.isEmpty(examVOList)) {
-//            return TableDataInfo.empty();
-//        }
-//        return TableDataInfo.success(examVOList, total);
-//    }
 }
