@@ -1,0 +1,3 @@
+com.doublez.common.file.config.OSSConfig
+com.doublez.common.file.service.OSSService
+com.doublez.common.file.config.OSSProperties

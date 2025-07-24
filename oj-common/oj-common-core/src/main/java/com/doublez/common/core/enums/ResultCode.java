@@ -38,7 +38,11 @@ public enum ResultCode {
     EXAM_IS_FINISH(3207,"竞赛已经结束不能操作" ),
     EXAM_NOT_HAS_QUESTION(3208,"竞赛没有题目" ),
 
-    USER_EXAM_HAS_ENTER(3301, "用户已经报过名，无需重复报名");
+    USER_EXAM_HAS_ENTER(3301, "用户已经报过名，无需重复报名"),
+
+    FAILED_FILE_UPLOAD                  (3401, "文件上传失败"),
+
+    FAILED_FILE_UPLOAD_TIME_LIMIT       (3402, "当天上传图片数量超过上限");
 
     private final int code;
     private final String msg;

@@ -27,5 +27,9 @@
             <groupId>com.doublez</groupId>
             <artifactId>oj-common-elasticsearch</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.doublez</groupId>
+            <artifactId>oj-common-file</artifactId>
+        </dependency>
     </dependencies>
 </project>
