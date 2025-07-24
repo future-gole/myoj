@@ -53,7 +53,6 @@ public class QuestionService implements IQuestionService {
         }
         QuestionES questionES = BeanUtil.copyProperties(question, QuestionES.class);
         questionRepository.save(questionES);
-        questionCacheManager.addCache(question.getQuestionId());
         return true;
     }
 

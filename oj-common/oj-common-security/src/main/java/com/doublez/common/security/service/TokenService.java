@@ -3,10 +3,9 @@ package com.doublez.common.security.service;
 import com.doublez.common.core.constants.CacheConstants;
 import com.doublez.common.core.constants.JwtConstants;
 import com.doublez.common.core.domain.LoginUser;
-import com.doublez.common.redis.service.RedisService;
 import com.doublez.common.core.utils.JwtUtils;
+import com.doublez.common.redis.service.RedisService;
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,6 +84,18 @@ public class TokenService {
         Claims claims = getClaims(token, secret);
         if (claims == null) return null;
         return Long.valueOf(JwtUtils.getUserId(claims));
+    }
+
+    public void refreshLoginUser(String nickName, String headImage, String userKey) {
+        String tokenKey = getTokenKey(userKey);
+        LoginUser loginUser = redisService.getCacheObject(tokenKey, LoginUser.class);
+        loginUser.setNickname(nickName);
+        loginUser.setHeadImage(headImage);
+        redisService.setCacheObject(tokenKey, loginUser);
+    }
+
+    private String getTokenKey(String userKey) {
+        return CacheConstants.Login_Token_Key + userKey;
     }
 
     private static Claims getClaims(String token, String secret) {

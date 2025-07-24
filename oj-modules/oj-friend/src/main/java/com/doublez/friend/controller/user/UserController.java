@@ -4,7 +4,9 @@ import com.doublez.common.core.constants.HttpConstants;
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
 import com.doublez.friend.domain.user.dto.UserDTO;
+import com.doublez.friend.domain.user.dto.UserUpdateDTO;
 import com.doublez.friend.domain.user.vo.LoginUserVO;
+import com.doublez.friend.domain.user.vo.UserVO;
 import com.doublez.friend.service.user.IUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,16 @@ public class UserController extends BaseController {
     @GetMapping("/info")
     public R<LoginUserVO> info(@RequestHeader(HttpConstants.AUTHENTICATION) String token) {
         return userService.info(token);
+    }
+
+    @GetMapping("/detail")
+    public R<UserVO> detail() {
+        return R.ok(userService.detail());
+    }
+
+
+    @PutMapping("/edit")
+    public R<Void> edit(@RequestBody UserUpdateDTO userUpdateDTO) {
+        return toR(userService.edit(userUpdateDTO));
     }
 }

@@ -25,4 +25,8 @@ public class CacheConstants {
 
     public final static String USER_DETAIL = "u:d:";   //用户详情信息
 
+    public final static long USER_EXP = 10;//用户信息过期时间
+
+    public static final String USER_UPLOAD_TIMES_KEY = "u:u:t";
+
 }

@@ -1,29 +1,34 @@
 package com.doublez.friend.service.user.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.doublez.common.core.constants.CacheConstants;
+import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.constants.HttpConstants;
 import com.doublez.common.core.domain.LoginUser;
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.enums.ResultCode;
 import com.doublez.common.core.enums.UserIdentity;
 import com.doublez.common.core.enums.UserStatus;
+import com.doublez.common.core.utils.ThreadLocalUtil;
 import com.doublez.common.message.service.EmailService;
 import com.doublez.common.redis.service.RedisService;
 import com.doublez.common.security.exception.ServiceException;
+import com.doublez.common.security.service.TokenService;
 import com.doublez.friend.domain.user.User;
 import com.doublez.friend.domain.user.dto.UserDTO;
+import com.doublez.friend.domain.user.dto.UserUpdateDTO;
 import com.doublez.friend.domain.user.vo.LoginUserVO;
+import com.doublez.friend.domain.user.vo.UserVO;
+import com.doublez.friend.manager.UserCacheManager;
 import com.doublez.friend.mapper.user.UserMapper;
 import com.doublez.friend.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.doublez.common.security.service.TokenService;
-import com.doublez.common.core.constants.Constants;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -41,6 +46,9 @@ public class UserServiceImpl  implements IUserService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserCacheManager userCacheManager;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -129,6 +137,41 @@ public class UserServiceImpl  implements IUserService {
 //        }
         return R.ok(loginUserVO);
     }
+
+    @Override
+    public UserVO detail() {
+        Long userId = ThreadLocalUtil.get(Constants.USER_ID, Long.class);
+        if (userId == null) {
+            throw new ServiceException(ResultCode.FAILED_USER_NOT_EXISTS);
+        }
+        UserVO userVO = userCacheManager.getUserById(userId);
+        if (userVO == null) {
+            throw new ServiceException(ResultCode.FAILED_USER_NOT_EXISTS);
+        }
+//        if (StrUtil.isNotEmpty(userVO.getHeadImage())) {
+//            userVO.setHeadImage(downloadUrl + userVO.getHeadImage());
+//        }
+        return userVO;
+    }
+
+    @Override
+    public int edit(UserUpdateDTO userUpdateDTO) {
+        Long userId = ThreadLocalUtil.get(Constants.USER_ID, Long.class);
+        if (userId == null) {
+            throw new ServiceException(ResultCode.FAILED_USER_NOT_EXISTS);
+        }
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new ServiceException(ResultCode.FAILED_USER_NOT_EXISTS);
+        }
+        BeanUtil.copyProperties(userUpdateDTO, user);
+        //更新用户缓存
+        userCacheManager.refreshUser(user);
+        tokenService.refreshLoginUser(user.getNickName(),user.getHeadImage(),
+                ThreadLocalUtil.get(Constants.USER_KEY, String.class));
+        return userMapper.updateById(user);
+    }
+
     private void checkCode(String email, String code) {
         if(StrUtil.isEmpty(code)){
             throw new ServiceException(ResultCode.FAILED_INVALID_CODE);

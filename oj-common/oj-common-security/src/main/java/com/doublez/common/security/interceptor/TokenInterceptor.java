@@ -25,8 +25,10 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = getToken(request);
         Long userId = tokenService.getUserId(token, secret);
-        //存入userId
+        String userKey = tokenService.getUserKey(token, secret);
+        //存入userId、userKey
         ThreadLocalUtil.set(Constants.USER_ID, userId);
+        ThreadLocalUtil.set(Constants.USER_KEY,userKey);
         tokenService.extendToken(token, secret);
         return true;
     }
