@@ -8,6 +8,7 @@ import com.doublez.common.core.domain.vo.TableDataInfo;
 import com.doublez.friend.domain.question.Question;
 import com.doublez.friend.domain.question.QuestionQueryDTO;
 import com.doublez.friend.domain.question.es.QuestionES;
+import com.doublez.friend.domain.question.vo.QuestionDetailVO;
 import com.doublez.friend.domain.question.vo.QuestionVO;
 import com.doublez.friend.elasticsearch.QuestionRepository;
 import com.doublez.friend.mapper.question.QuestionMapper;
@@ -67,6 +68,23 @@ public class QuestionServiceImpl implements IQuestionService {
         //类型转化
         List<QuestionVO> questionVOList = BeanUtil.copyToList(questionESList, QuestionVO.class);
         return TableDataInfo.success(questionVOList, total);
+    }
+
+    @Override
+    public QuestionDetailVO detail(Long questionId) {
+        QuestionES questionES = questionRepository.findById(questionId).orElse(null);
+        QuestionDetailVO questionDetailVO = new QuestionDetailVO();
+        if (questionES != null) {
+            BeanUtil.copyProperties(questionES, questionDetailVO);
+            return questionDetailVO;
+        }
+        Question question = questionMapper.selectById(questionId);
+        if (question == null) {
+            return null;
+        }
+        refreshQuestion();
+        BeanUtil.copyProperties(question, questionDetailVO);
+        return questionDetailVO;
     }
 
     private boolean refreshQuestion() {

@@ -1,6 +1,5 @@
 package com.doublez.friend.service.user.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -164,7 +163,15 @@ public class UserServiceImpl  implements IUserService {
         if (user == null) {
             throw new ServiceException(ResultCode.FAILED_USER_NOT_EXISTS);
         }
-        BeanUtil.copyProperties(userUpdateDTO, user);
+        //头像需要单独处理
+        user.setNickName(userUpdateDTO.getNickName());
+        user.setSex(userUpdateDTO.getSex());
+        user.setSchoolName(userUpdateDTO.getSchoolName());
+        user.setMajorName(userUpdateDTO.getMajorName());
+        user.setPhone(userUpdateDTO.getPhone());
+        user.setEmail(userUpdateDTO.getEmail());
+        user.setWechat(userUpdateDTO.getWechat());
+        user.setIntroduce(userUpdateDTO.getIntroduce());
         //更新用户缓存
         userCacheManager.refreshUser(user);
         tokenService.refreshLoginUser(user.getNickName(),user.getHeadImage(),

@@ -1,8 +1,10 @@
 package com.doublez.friend.controller.question;
 
 import com.doublez.common.core.controller.BaseController;
+import com.doublez.common.core.domain.R;
 import com.doublez.common.core.domain.vo.TableDataInfo;
 import com.doublez.friend.domain.question.QuestionQueryDTO;
+import com.doublez.friend.domain.question.vo.QuestionDetailVO;
 import com.doublez.friend.service.question.IQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,9 @@ public class QuestionController extends BaseController {
         return questionService.list(questionQueryDTO);
     }
 
-
+    @GetMapping("/detail")
+    public R<QuestionDetailVO> detail(Long questionId) {
+        return R.ok(questionService.detail(questionId));
+    }
 
 }
