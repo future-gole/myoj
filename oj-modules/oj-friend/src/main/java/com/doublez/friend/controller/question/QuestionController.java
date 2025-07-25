@@ -28,4 +28,15 @@ public class QuestionController extends BaseController {
         return R.ok(questionService.detail(questionId));
     }
 
+    //获取题目的顺序
+    @GetMapping("/preQuestion")
+    public R<String> preQuestion(Long questionId) {
+        return R.ok(questionService.preQuestion(questionId));
+    }
+
+    @GetMapping("/nextQuestion")
+    public R<String> nextQuestion(Long questionId) {
+        return R.ok(questionService.nextQuestion(questionId));
+    }
+
 }

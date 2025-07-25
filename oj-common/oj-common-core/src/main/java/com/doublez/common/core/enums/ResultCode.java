@@ -41,8 +41,12 @@ public enum ResultCode {
     USER_EXAM_HAS_ENTER(3301, "用户已经报过名，无需重复报名"),
 
     FAILED_FILE_UPLOAD                  (3401, "文件上传失败"),
+    FAILED_FILE_UPLOAD_TIME_LIMIT       (3402, "当天上传图片数量超过上限"),
 
-    FAILED_FILE_UPLOAD_TIME_LIMIT       (3402, "当天上传图片数量超过上限");
+    FAILED_FIRST_QUESTION               (3501, "当前题目已经是第一题了哦"),
+    FAILED_LAST_QUESTION                (3502, "当前题目已经是最后一题了哦"),
+    FAILED_NOT_SUPPORT_PROGRAM          (3601, "当前不支持此语言"),
+    FAILED_RABBIT_PRODUCE               (3701, "mq生产消息异常");
 
     private final int code;
     private final String msg;

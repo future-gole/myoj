@@ -191,7 +191,9 @@ public class RedisService {
         return redisTemplate.opsForList().remove(key, 1L, value);
     }
 
-
+    /**
+     * 获取value的下标
+     */
     public <T> Long indexOfForList(final String key, T value) {
         return redisTemplate.opsForList().indexOf(key, value);
     }

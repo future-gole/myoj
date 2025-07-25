@@ -1,12 +1,9 @@
 package com.doublez.system.service.question.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.doublez.common.core.domain.R;
-import com.doublez.common.core.domain.vo.TableDataInfo;
 import com.doublez.common.core.enums.ResultCode;
 import com.doublez.common.security.exception.ServiceException;
 import com.doublez.system.domain.question.Question;
@@ -17,6 +14,7 @@ import com.doublez.system.domain.question.es.QuestionES;
 import com.doublez.system.domain.question.vo.QuestionDetailVO;
 import com.doublez.system.domain.question.vo.QuestionVO;
 import com.doublez.system.elasticsearch.QuestionRepository;
+import com.doublez.system.manager.QuestionCacheManager;
 import com.doublez.system.mapper.QuestionMapper;
 import com.doublez.system.service.question.IQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,9 @@ public class QuestionService implements IQuestionService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private QuestionCacheManager questionCacheManager;
 
     @Override
     public IPage<QuestionVO> list(QuestionQueryDTO queryDTO) {
@@ -53,6 +54,7 @@ public class QuestionService implements IQuestionService {
         }
         QuestionES questionES = BeanUtil.copyProperties(question, QuestionES.class);
         questionRepository.save(questionES);
+        questionCacheManager.addCache(question.getQuestionId());
         return true;
     }
 
@@ -74,6 +76,7 @@ public class QuestionService implements IQuestionService {
     @Override
     public int delete(Long questionId) {
         questionRepository.deleteById(questionId);
+        questionCacheManager.deleteCache(questionId);
         return questionMapper.deleteById(questionId);
     }
 

@@ -11,6 +11,7 @@ import com.doublez.friend.domain.question.es.QuestionES;
 import com.doublez.friend.domain.question.vo.QuestionDetailVO;
 import com.doublez.friend.domain.question.vo.QuestionVO;
 import com.doublez.friend.elasticsearch.QuestionRepository;
+import com.doublez.friend.manager.QuestionCacheManager;
 import com.doublez.friend.mapper.question.QuestionMapper;
 import com.doublez.friend.service.question.IQuestionService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,9 @@ public class QuestionServiceImpl implements IQuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionCacheManager questionCacheManager;
 
     @Override
     public TableDataInfo list(QuestionQueryDTO questionQueryDTO) {
@@ -85,6 +89,28 @@ public class QuestionServiceImpl implements IQuestionService {
         refreshQuestion();
         BeanUtil.copyProperties(question, questionDetailVO);
         return questionDetailVO;
+    }
+
+    @Override
+    public String preQuestion(Long questionId) {
+        //查看redis中是否有缓存
+        Long listSize = questionCacheManager.getListSize();
+        if (listSize == null || listSize <= 0) {
+            questionCacheManager.refreshCache();
+        }
+        //获取上一条数据
+        return questionCacheManager.preQuestion(questionId).toString();
+    }
+
+    @Override
+    public String nextQuestion(Long questionId) {
+        //查看redis中是否有缓存
+        Long listSize = questionCacheManager.getListSize();
+        if (listSize == null || listSize <= 0) {
+            questionCacheManager.refreshCache();
+        }
+        //获取下一条数据
+        return questionCacheManager.nextQuestion(questionId).toString();
     }
 
     private boolean refreshQuestion() {
