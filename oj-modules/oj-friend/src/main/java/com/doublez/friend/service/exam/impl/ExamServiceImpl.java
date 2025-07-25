@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.doublez.common.core.domain.vo.TableDataInfo;
 import com.doublez.friend.domain.exam.dto.ExamQueryDTO;
 import com.doublez.friend.domain.exam.vo.ExamVO;
+import com.doublez.friend.manager.ExamCacheManager;
 import com.doublez.friend.mapper.exam.ExamMapper;
 import com.doublez.friend.service.exam.IExamService;
-import com.doublez.friend.manager.ExamCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +49,20 @@ public class ExamServiceImpl implements IExamService {
             return TableDataInfo.empty();
         }
         return TableDataInfo.success(examVOList, total);
+    }
+
+    @Override
+    public String getFirstQuestion(Long examId) {
+        //确认缓存，没有则刷新
+        checkAndRefresh(examId);
+        //获取第一题
+        return examCacheManager.getFirstQuestion(examId).toString();
+    }
+
+    private void checkAndRefresh(Long examId) {
+        Long listSize = examCacheManager.getExamQuestionListSize(examId);
+        if (listSize == null || listSize <= 0) {
+            examCacheManager.refreshExamQuestionCache(examId);
+        }
     }
 }

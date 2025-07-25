@@ -8,4 +8,6 @@ public interface IExamService {
     IPage<?> list(ExamQueryDTO examQueryDTO);
 
     TableDataInfo redisList(ExamQueryDTO examQueryDTO);
+
+    String getFirstQuestion(Long examId);
 }

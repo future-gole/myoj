@@ -4,9 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doublez.common.core.constants.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.enums.ResultCode;
 import com.doublez.common.security.exception.ServiceException;
 import com.doublez.system.domain.exam.Exam;
@@ -66,6 +66,14 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
         //判断竞赛是否存在
         Exam exam = getExam(examQuestionAddDTO.getExamId());
         //检查需要添加的题目是否合法
+        checkExam(exam);
+        if (Constants.TRUE.equals(exam.getStatus())) {
+            throw new ServiceException(ResultCode.EXAM_IS_PUBLISH);
+        }
+        Set<Long> questionIdSet = examQuestionAddDTO.getQuestionIds();
+        if (CollectionUtil.isEmpty(questionIdSet)) {
+            return true;
+        }
         Set<Long> questionIds = examQuestionAddDTO.getQuestionIds();
         List<Question> questions = questionMapper.selectBatchIds(questionIds);
         if(CollectionUtil.isEmpty(questions) || questions.size() < questionIds.size()){
@@ -103,9 +111,9 @@ public class ExamService extends ServiceImpl<ExamQuestionMapper, ExamQuestion> i
     @Override
     public int edit(ExamEditDTO examEditDTO) {
         Exam exam = getExam(examEditDTO.getExamId());
-//        if (Constants.TRUE.equals(exam.getStatus())) {
-//            throw new ServiceException(ResultCode.EXAM_IS_PUBLISH);
-//        }
+        if (Constants.TRUE.equals(exam.getStatus())) {
+            throw new ServiceException(ResultCode.EXAM_IS_PUBLISH);
+        }
         checkExam(exam);
         checkExamSaveParams(examEditDTO, examEditDTO.getExamId());
         exam.setTitle(examEditDTO.getTitle());

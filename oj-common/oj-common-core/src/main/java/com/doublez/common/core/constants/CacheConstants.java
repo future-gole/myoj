@@ -33,6 +33,8 @@ public class CacheConstants {
 
     public static final String QUESTION_HOST_LIST = "q:h:l";
 
+    public static final String EXAM_QUESTION_LIST = "e:q:l:";
+
     public static final long DEFAULT_START = 0;
 
     public static final long DEFAULT_END = -1;
