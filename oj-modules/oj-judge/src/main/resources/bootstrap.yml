@@ -3,3 +3,15 @@ server:
 spring:
   application:
     name: oj-judge
+  profiles:
+    # 环境配置
+    active: local
+  cloud:
+    nacos:
+      discovery:
+        namespace: f7b8dfd9-cf5c-4362-aeda-c2787cc342dc
+        server-addr: http://localhost:8848
+      config:
+        namespace: f7b8dfd9-cf5c-4362-aeda-c2787cc342dc
+        server-addr: http://localhost:8848
+        file-extension: yaml

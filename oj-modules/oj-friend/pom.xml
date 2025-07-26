@@ -31,5 +31,9 @@
             <groupId>com.doublez</groupId>
             <artifactId>oj-common-file</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.doublez</groupId>
+            <artifactId>oj-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

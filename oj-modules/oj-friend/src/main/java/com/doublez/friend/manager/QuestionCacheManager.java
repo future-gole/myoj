@@ -45,6 +45,10 @@ public class QuestionCacheManager {
 //        List<Long> list = redisService.getCacheListByRange(CacheConstants.QUESTION_LIST, 0, -1, Long.class);
         //获取当前题目的下标
         Long index = redisService.indexOfForList(CacheConstants.QUESTION_LIST, questionId);
+        //判断是否存在
+        if (index == null) {
+            throw new ServiceException(ResultCode.FAILED_NOT_EXISTS);
+        }
         //判断是否是第一题
         if (index == 0) {
             throw new ServiceException(ResultCode.FAILED_FIRST_QUESTION);
@@ -57,6 +61,9 @@ public class QuestionCacheManager {
         //获取当前题目的下标
         Long index = redisService.indexOfForList(CacheConstants.QUESTION_LIST, questionId);
         long lastIndex = getListSize() - 1;
+        if (index == null) {
+            throw new ServiceException(ResultCode.FAILED_NOT_EXISTS);
+        }
         //判断是否是最后一题
         if (index == lastIndex) {
             throw new ServiceException(ResultCode.FAILED_LAST_QUESTION);
