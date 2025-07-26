@@ -2,9 +2,9 @@ package com.doublez.friend.service.user.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
-import com.doublez.api.domain.RemoteJudgeService;
-import com.doublez.api.domain.domain.dto.JudgeSubmitDTO;
-import com.doublez.api.domain.domain.vo.UserQuestionResultVO;
+import com.doublez.api.RemoteJudgeService;
+import com.doublez.api.domain.dto.JudgeSubmitDTO;
+import com.doublez.api.domain.vo.UserQuestionResultVO;
 import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.enums.ProgramType;

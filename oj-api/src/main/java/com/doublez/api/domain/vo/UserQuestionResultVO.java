@@ -1,6 +1,6 @@
-package com.doublez.api.domain.domain.vo;
+package com.doublez.api.domain.vo;
 
-import com.doublez.api.domain.domain.UserExeResult;
+import com.doublez.api.domain.UserExeResult;
 import lombok.Getter;
 import lombok.Setter;
 

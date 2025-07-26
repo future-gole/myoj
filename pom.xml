@@ -44,6 +44,7 @@
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <pagehelper.boot.version>2.0.0</pagehelper.boot.version>
         <xxl-job.version>2.4.0</xxl-job.version>
+        <docker.version>3.3.4</docker.version>
     </properties>
     <dependencies>
         <!-- bootstrap 启动器 -->
@@ -90,6 +91,12 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
+            </dependency>
+            <!--docker-->
+            <dependency>
+                <groupId>com.github.docker-java</groupId>
+                <artifactId>docker-java</artifactId>
+                <version>${docker.version}</version>
             </dependency>
             <!--自定义模块配置-->
             <dependency>

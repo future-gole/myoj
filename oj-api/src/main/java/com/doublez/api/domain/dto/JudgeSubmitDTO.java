@@ -1,4 +1,4 @@
-package com.doublez.api.domain.domain.dto;
+package com.doublez.api.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;

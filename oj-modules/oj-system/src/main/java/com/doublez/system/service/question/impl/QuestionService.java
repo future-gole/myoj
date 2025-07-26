@@ -46,7 +46,7 @@ public class QuestionService implements IQuestionService {
     public boolean add(QuestionAddDTO addDTO) {
         Long count = questionMapper.selectCount(new LambdaQueryWrapper<Question>().eq(Question::getTitle, addDTO.getTitle()));
         if (count > 0) {
-            throw new ServiceException(ResultCode.FAILED_NOT_EXISTS);
+            throw new ServiceException(ResultCode.FAILED_ALREADY_EXISTS);
         }
         Question question = BeanUtil.copyProperties(addDTO, Question.class);
         if(questionMapper.insert(question) < 0){

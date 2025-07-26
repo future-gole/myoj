@@ -1,7 +1,7 @@
-package com.doublez.api.domain;
+package com.doublez.api;
 
-import com.doublez.api.domain.domain.dto.JudgeSubmitDTO;
-import com.doublez.api.domain.domain.vo.UserQuestionResultVO;
+import com.doublez.api.domain.dto.JudgeSubmitDTO;
+import com.doublez.api.domain.vo.UserQuestionResultVO;
 import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.domain.R;
 import org.springframework.cloud.openfeign.FeignClient;
