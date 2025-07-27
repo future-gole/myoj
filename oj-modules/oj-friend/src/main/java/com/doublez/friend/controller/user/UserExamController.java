@@ -4,6 +4,7 @@ import com.doublez.common.core.constants.HttpConstants;
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.domain.vo.TableDataInfo;
+import com.doublez.friend.aspect.CheckUserStatus;
 import com.doublez.friend.domain.exam.dto.ExamDTO;
 import com.doublez.friend.domain.exam.dto.ExamQueryDTO;
 import com.doublez.friend.service.user.IUserExamService;
@@ -18,6 +19,7 @@ public class UserExamController extends BaseController {
     private IUserExamService userExamService;
 
 
+    @CheckUserStatus
     @PostMapping("/enter")
     public R<Void> enter(@RequestHeader(HttpConstants.AUTHENTICATION) String token, @RequestBody ExamDTO examDTO) {
         return toR(userExamService.enter(token, examDTO.getExamId()));

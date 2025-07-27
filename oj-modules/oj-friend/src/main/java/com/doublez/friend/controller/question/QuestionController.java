@@ -3,6 +3,7 @@ package com.doublez.friend.controller.question;
 import com.doublez.common.core.controller.BaseController;
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.domain.vo.TableDataInfo;
+import com.doublez.friend.aspect.CheckUserStatus;
 import com.doublez.friend.domain.question.QuestionQueryDTO;
 import com.doublez.friend.domain.question.vo.QuestionDetailVO;
 import com.doublez.friend.service.question.IQuestionService;
@@ -23,18 +24,21 @@ public class QuestionController extends BaseController {
         return questionService.list(questionQueryDTO);
     }
 
+    @CheckUserStatus
     @GetMapping("/detail")
     public R<QuestionDetailVO> detail(Long questionId) {
         return R.ok(questionService.detail(questionId));
     }
 
     //获取题目的顺序
+    @CheckUserStatus
     @GetMapping("/preQuestion")
     public R<String> preQuestion(Long questionId) {
         return R.ok(questionService.preQuestion(questionId));
     }
 
     @GetMapping("/nextQuestion")
+    @CheckUserStatus
     public R<String> nextQuestion(Long questionId) {
         return R.ok(questionService.nextQuestion(questionId));
     }
