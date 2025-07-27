@@ -35,5 +35,9 @@
             <groupId>com.doublez</groupId>
             <artifactId>oj-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.doublez</groupId>
+            <artifactId>oj-common-rabbitmq</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -5,13 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.doublez</groupId>
-        <artifactId>oj-modules</artifactId>
+        <artifactId>oj-common</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.doublez.judge</groupId>
-    <artifactId>oj-judge</artifactId>
+    <artifactId>oj-common-rabbitmq</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -21,20 +19,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.doublez</groupId>
-            <artifactId>oj-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.docker-java</groupId>
-            <artifactId>docker-java</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <dependency>
             <groupId>com.doublez</groupId>
-            <artifactId>oj-common-rabbitmq</artifactId>
+            <artifactId>oj-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -19,6 +19,7 @@
         <module>oj-gateway</module>
         <module>oj-common/oj-common-file</module>
         <module>oj-api</module>
+        <module>oj-common/oj-common-rabbitmq</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -34,6 +35,7 @@
         <oj-common-mybatis.version>1.0-SNAPSHOT</oj-common-mybatis.version>
         <oj-common-message.version>1.0-SNAPSHOT</oj-common-message.version>
         <oj-common-elasticsearch.version>1.0-SNAPSHOT</oj-common-elasticsearch.version>
+        <oj-common-rabbitmq.version>1.0-SNAPSHOT</oj-common-rabbitmq.version>
         <oj-api.version>1.0-SNAPSHOT</oj-api.version>
         <oj-common-file.version>1.0-SNAPSHOT</oj-common-file.version>
         <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
@@ -143,6 +145,11 @@
                 <groupId>com.doublez</groupId>
                 <artifactId>oj-api</artifactId>
                 <version>${oj-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.doublez</groupId>
+                <artifactId>oj-common-rabbitmq</artifactId>
+                <version>${oj-common-rabbitmq.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

@@ -1,23 +1,29 @@
 package com.doublez.friend.service.user.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSON;
 import com.doublez.api.RemoteJudgeService;
+import com.doublez.api.domain.UserExeResult;
 import com.doublez.api.domain.dto.JudgeSubmitDTO;
 import com.doublez.api.domain.vo.UserQuestionResultVO;
 import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.domain.R;
 import com.doublez.common.core.enums.ProgramType;
+import com.doublez.common.core.enums.QuestionResType;
 import com.doublez.common.core.enums.ResultCode;
 import com.doublez.common.core.utils.ThreadLocalUtil;
 import com.doublez.common.security.exception.ServiceException;
 import com.doublez.friend.domain.question.Question;
 import com.doublez.friend.domain.question.QuestionCase;
 import com.doublez.friend.domain.question.es.QuestionES;
+import com.doublez.friend.domain.user.UserSubmit;
 import com.doublez.friend.domain.user.dto.UserSubmitDTO;
 import com.doublez.friend.elasticsearch.QuestionRepository;
 import com.doublez.friend.mapper.question.QuestionMapper;
 import com.doublez.friend.mapper.user.UserSubmitMapper;
+import com.doublez.friend.rabbit.JudgeProducer;
 import com.doublez.friend.service.user.IUserQuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +48,9 @@ public class UserQuestionServiceImpl implements IUserQuestionService {
     @Autowired
     private RemoteJudgeService remoteJudgeService;
 
+    @Autowired
+    private JudgeProducer judgeProducer;
+
 
     @Override
     public R<UserQuestionResultVO> submit(UserSubmitDTO submitDTO) {
@@ -53,6 +62,38 @@ public class UserQuestionServiceImpl implements IUserQuestionService {
             return remoteJudgeService.doJudgeJavaCode(judgeSubmitDTO);
         }
         throw new ServiceException(ResultCode.FAILED_NOT_SUPPORT_PROGRAM);
+    }
+
+    @Override
+    public boolean rabbitSubmit(UserSubmitDTO submitDTO) {
+        Integer programType = submitDTO.getProgramType();
+        if (ProgramType.JAVA.getValue().equals(programType)) {
+            //按照java逻辑处理
+            JudgeSubmitDTO judgeSubmitDTO = assembleJudgeSubmitDTO(submitDTO);
+            judgeProducer.produceMsg(judgeSubmitDTO);
+            return true;
+        }
+        throw new ServiceException(ResultCode.FAILED_NOT_SUPPORT_PROGRAM);
+    }
+
+    @Override
+    public UserQuestionResultVO exeResult(Long examId, Long questionId, String currentTime) {
+        //获取用户id
+        Long userId = ThreadLocalUtil.get(Constants.USER_ID, Long.class);
+        //获取判题信息
+        UserSubmit userSubmit = userSubmitMapper.selectCurrentUserSubmit(userId, examId, questionId, currentTime);
+        UserQuestionResultVO resultVO = new UserQuestionResultVO();
+        //判断判题是否完成
+        if (userSubmit == null) {
+            resultVO.setPass(QuestionResType.IN_JUDGE.getValue());
+        } else {
+            resultVO.setPass(userSubmit.getPass());
+            resultVO.setExeMessage(userSubmit.getExeMessage());
+            if (StrUtil.isNotEmpty(userSubmit.getCaseJudgeRes())) {
+                resultVO.setUserExeResultList(JSON.parseArray(userSubmit.getCaseJudgeRes(), UserExeResult.class));
+            }
+        }
+        return resultVO;
     }
 
     private JudgeSubmitDTO assembleJudgeSubmitDTO(UserSubmitDTO submitDTO) {

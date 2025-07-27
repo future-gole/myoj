@@ -147,6 +147,7 @@ public class UserServiceImpl  implements IUserService {
         if (userVO == null) {
             throw new ServiceException(ResultCode.FAILED_USER_NOT_EXISTS);
         }
+        //todo 用户头像拼接
 //        if (StrUtil.isNotEmpty(userVO.getHeadImage())) {
 //            userVO.setHeadImage(downloadUrl + userVO.getHeadImage());
 //        }
