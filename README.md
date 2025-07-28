@@ -10,12 +10,12 @@ MyOJ 是一个基于 Spring Cloud 微服务架构的在线判题系统（Online 
 - **Spring Cloud Alibaba **
 - **Spring Cloud Gateway**
 - **Nacos**
-- **MyBatis Plus 3.5.7**
+- **MyBatis Plus**
 - **Redis**
 - **RabbitMQ** 
 - **MySQL** 
 - **Docker** 
-- **XXL-Job 2.4.0**
+- **XXL-Job**
 - **Elasticsearch**
 
 ## 项目架构
@@ -97,24 +97,14 @@ cd myoj
 
 2. **配置数据库**
     - 创建 MySQL 数据库
-    - 导入初始化脚本
+    - 导入初始化脚本[deploy/sql/init.sql]()
 
-3. **配置 Nacos**
-    - 启动 Nacos 服务
-    - 配置相关的配置文件
-
-4. **启动 Redis 和 RabbitMQ**
-```bash
-docker run -d --name redis -p 6379:6379 redis
-docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
-```
-
-5. **编译项目**
+3**编译项目**
 ```bash
 mvn clean install
 ```
 
-6. **启动服务**
+4**启动服务**
 按照以下顺序启动服务：
     - 启动 oj-gateway
     - 启动 oj-system
@@ -152,6 +142,3 @@ myoj/
 
 **注意**：本项目仍在开发中，部分功能可能还不完善。欢迎贡献代码和提出建议！
 
-## Notes
-
-这个 README 文档基于对项目代码结构的分析生成。项目采用了现代化的微服务架构，使用 Spring Cloud Alibaba 技术栈构建。核心功能包括在线判题、题目管理、考试系统等。系统设计考虑了高可用性、可扩展性和安全性，适合作为教育机构或企业的在线编程考试平台使用。
