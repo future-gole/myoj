@@ -1,4 +1,4 @@
-package com.doublez.judge.config;
+package com.doublez.judge.config.old;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -6,9 +6,8 @@ import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.netty.NettyDockerCmdExecFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class DockerSandBoxPoolConfig {
 
     @Value("${sandbox.docker.host:tcp://localhost:2375}")

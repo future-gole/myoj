@@ -33,8 +33,13 @@
             <artifactId>docker-java</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java-transport-httpclient5</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.doublez</groupId>
             <artifactId>oj-common-rabbitmq</artifactId>
         </dependency>
+
     </dependencies>
 </project>

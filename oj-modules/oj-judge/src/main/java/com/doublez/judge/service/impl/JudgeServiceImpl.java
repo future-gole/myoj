@@ -9,11 +9,12 @@ import com.doublez.api.domain.vo.UserQuestionResultVO;
 import com.doublez.common.core.constants.Constants;
 import com.doublez.common.core.constants.JudgeConstants;
 import com.doublez.common.core.enums.CodeRunStatus;
+import com.doublez.judge.config.JudgeStrategyFactory;
 import com.doublez.judge.domain.SandBoxExecuteResult;
 import com.doublez.judge.domain.UserSubmit;
 import com.doublez.judge.mapper.UserSubmitMapper;
 import com.doublez.judge.service.IJudgeService;
-import com.doublez.judge.service.ISandboxPoolService;
+import com.doublez.judge.template.AbstractJudgeTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,18 +26,24 @@ import java.util.List;
 @Slf4j
 public class JudgeServiceImpl implements IJudgeService {
 
+//    @Autowired
+//    private ISandboxPoolService sandboxPoolService;
+
     @Autowired
-    private ISandboxPoolService sandboxPoolService;
+    private JudgeStrategyFactory judgeStrategyFactory;
 
     @Autowired
     private UserSubmitMapper userSubmitMapper;
 
     @Override
     public UserQuestionResultVO doJudgeJavaCode(JudgeSubmitDTO judgeSubmitDTO) {
+        //获取判题策略对象
+        AbstractJudgeTemplate strategy = judgeStrategyFactory.getStrategy(judgeSubmitDTO.getProgramType().getDesc());
         //调用容器池进行判题
         SandBoxExecuteResult sandBoxExecuteResult =
-                sandboxPoolService.exeJavaCode(judgeSubmitDTO.getUserId(), judgeSubmitDTO.getUserCode(), judgeSubmitDTO.getInputList());
+                strategy.judge(judgeSubmitDTO.getUserCode(), judgeSubmitDTO.getInputList(),judgeSubmitDTO.getTimeLimit());
         UserQuestionResultVO userQuestionResultVO = new UserQuestionResultVO();
+        //返回判题结果
         //成功
         if (sandBoxExecuteResult != null && CodeRunStatus.SUCCEED.equals(sandBoxExecuteResult.getRunStatus())) {
             //比对直接结果  时间限制  空间限制的比对
@@ -136,7 +143,7 @@ public class JudgeServiceImpl implements IJudgeService {
         userSubmit.setUserId(judgeSubmitDTO.getUserId());
         userSubmit.setQuestionId(judgeSubmitDTO.getQuestionId());
         userSubmit.setExamId(judgeSubmitDTO.getExamId());
-        userSubmit.setProgramType(judgeSubmitDTO.getProgramType());
+        userSubmit.setProgramType(judgeSubmitDTO.getProgramType().getValue());
         userSubmit.setUserCode(judgeSubmitDTO.getUserCode());
         userSubmit.setCaseJudgeRes(JSON.toJSONString(userQuestionResultVO.getUserExeResultList()));
         userSubmit.setCreateBy(judgeSubmitDTO.getUserId());

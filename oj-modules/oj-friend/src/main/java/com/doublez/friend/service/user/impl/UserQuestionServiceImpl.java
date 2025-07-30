@@ -114,7 +114,7 @@ public class UserQuestionServiceImpl implements IUserQuestionService {
         //复制数据至judgeSubmitDTO
         judgeSubmitDTO.setUserId(ThreadLocalUtil.get(Constants.USER_ID, Long.class));
         judgeSubmitDTO.setExamId(submitDTO.getExamId());
-        judgeSubmitDTO.setProgramType(submitDTO.getProgramType());
+        judgeSubmitDTO.setProgramType(ProgramType.of(submitDTO.getProgramType()));
         //放置拼接之后的完整代码
         judgeSubmitDTO.setUserCode(codeConnect(submitDTO.getUserCode(), questionES.getMainFuc()));
         //获取input用例

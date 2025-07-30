@@ -1,5 +1,6 @@
 package com.doublez.api.domain.dto;
 
+import com.doublez.common.core.enums.ProgramType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ public class JudgeSubmitDTO {
     private Long examId;
 
     //编程语言类型（0 java 1 C++）
-    private Integer programType;
+    private ProgramType programType;
 
     private Long questionId;
 

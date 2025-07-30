@@ -1,4 +1,4 @@
-package com.doublez.judge.config;
+package com.doublez.judge.config.old;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
